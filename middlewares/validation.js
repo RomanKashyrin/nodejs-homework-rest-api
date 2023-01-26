@@ -1,18 +1,14 @@
+const createError = require("http-errors");
+
 const validation = (schema) => {
   return (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
-      res.json({
-        status: "error",
-        code: 404,
-        message: "Missing required name field",
-      });
+      return next(createError(400, "Missing required name field"));
     }
 
-    const validationRes = schema.validate(req.body);
-    if (validationRes.error) {
-      return res.status(400).json({
-        status: validationRes.error.details,
-      });
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return next(createError(400, error.message));
     }
     next();
   };

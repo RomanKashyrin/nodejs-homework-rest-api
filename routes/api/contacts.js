@@ -1,9 +1,9 @@
 const express = require("express");
-const contacts = require("../../controllers/contacts");
 const router = express.Router();
 
-const schema = require("../../schema/contactSchema");
-const validation = require("../../middlewares/validation");
+const { contacts } = require("../../controllers"); 
+const { schemaContact: schema } = require("../../schema");
+const { validation } = require("../../middlewares");
 
 router.get("/", contacts.getContact);
 
