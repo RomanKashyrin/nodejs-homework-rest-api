@@ -10,7 +10,7 @@ const contactById = async (req, res, next) => {
   const { contactId } = req.params;
   const result = await service.getContactById(contactId);
   if (!result) {
-    return next(createError(400, "Not found"));
+    return next(createError(404, "Not found"));
   }
   res.json(result);
 };

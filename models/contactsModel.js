@@ -20,7 +20,7 @@ const schemaContact = new Schema(
       default: false,
     },
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: true },
 );
 
 const Contact = model("contact", schemaContact);
@@ -38,7 +38,7 @@ const schemaUpdateContact = Joi.object({
   name: Joi.string().min(3),
   email: Joi.string().email({
     maxDomainSegments: 2,
-    tlds: { allow: ["com", "net"] },
+    tlds: { allow: ["com", "net"] }
   }),
   phone: Joi.string().min(5),
   favorite: Joi.boolean(),
