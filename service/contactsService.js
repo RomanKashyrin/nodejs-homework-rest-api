@@ -1,31 +1,44 @@
 const { Contact } = require("../models/contactsModel");
+const { User } = require("../models/usersModel");
 
-const getContact = async () => {
-  return Contact.find();
+const getContact = async (userId, query) => {
+  const { page = 1, limit = 20, favorite } = query;
+  const skip = (page - 1) * limit;
+  if (favorite) {
+    return Contact.find({ owner: userId, favorite: favorite }, "", {
+      skip,
+      limit: +limit,
+    });
+  }
 };
 
-const getContactById = async (id) => {
-  return Contact.findById({ _id: id });
+const getContactById = async (id, userId) => {
+  return Contact.findById({ _id: id, owner: userId });
 };
 
 const addContact = async (body) => {
   return Contact.create(body);
 };
 
-const updateContact = async (id, body) => {
-  return Contact.findByIdAndUpdate({ _id: id }, body, { new: true });
+const updateContact = async (_id, contactId, ...body) => {
+  return Contact.findByIdAndUpdate({
+    _id: contactId,
+    owner: _id,
+    body,
+    new: true,
+  });
 };
 
-const updateStatusContact = async (id, body) => {
+const updateStatusContact = async (id, userId, body) => {
   return Contact.findByIdAndUpdate(
-    { _id: id },
+    { _id: id, owner: userId },
     { $set: { favorite: body } },
     { new: true }
   );
 };
 
-const deleteContact = async (id) => {
-  return Contact.findByIdAndRemove({ _id: id });
+const deleteContact = async (id, userId) => {
+  return Contact.findByIdAndRemove({ _id: id, owner: userId });
 };
 
 module.exports = {
