@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { contacts } = require("../../controllers");
-const { schema } = require("../../models/contactsModel");
+const { contacts }  = require("../../controllers");
+const { schema }  = require("../../models/contactsModel");
 const { validation, auth } = require("../../middlewares");
+// const { validation } = require("../../middlewares/validation");
+// const { auth } = require("../../middlewares/auth");
 
 router.get("/", auth, contacts.getContact);
 

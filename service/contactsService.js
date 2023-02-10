@@ -1,5 +1,5 @@
 const { Contact } = require("../models/contactsModel");
-const { User } = require("../models/usersModel");
+// const { User } = require("../models/usersModel");
 
 const getContact = async (userId, query) => {
   const { page = 1, limit = 20, favorite } = query;
