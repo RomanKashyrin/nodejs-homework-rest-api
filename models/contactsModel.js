@@ -53,9 +53,13 @@ const schemaUpdateStatus = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-module.exports = {
-  Contact,
+const schemas = {
   schemaAddContact,
   schemaUpdateContact,
   schemaUpdateStatus,
+};
+
+module.exports = {
+  Contact,
+  schemas,
 };

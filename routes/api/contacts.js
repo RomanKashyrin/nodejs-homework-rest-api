@@ -2,10 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const { contacts }  = require("../../controllers");
-const { schema }  = require("../../models/contactsModel");
+const { schemas }  = require("../../models/contactsModel");
 const { validation, auth } = require("../../middlewares");
-// const { validation } = require("../../middlewares/validation");
-// const { auth } = require("../../middlewares/auth");
 
 router.get("/", auth, contacts.getContact);
 
@@ -13,21 +11,21 @@ router.get("/:contactId", auth, contacts.contactById);
 
 router.post(
   "/",
-  validation(schema.schemaAddContact),
+  validation(schemas.schemaAddContact),
   auth,
   contacts.createContact
 );
 
 router.put(
   "/:contactId",
-  validation(schema.schemaUpdateContact),
+  validation(schemas.schemaUpdateContact),
   auth,
   contacts.updateContact
 );
 
 router.patch(
   "/:contactId/favorite",
-  validation(schema.schemaUpdateStatus),
+  validation(schemas.schemaUpdateStatus),
   auth,
   contacts.updateContact
 );
