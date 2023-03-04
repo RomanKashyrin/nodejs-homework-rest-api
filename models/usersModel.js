@@ -2,7 +2,6 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
-const { string } = require("joi");
 
 const schemaUser = new Schema(
   {
@@ -26,9 +25,20 @@ const schemaUser = new Schema(
     },
     avatarURL: {
       type: String,
-      default: gravatar.url(this.email, {}, true)
+      default: gravatar.url(this.email, {}, true),
     },
-    token: String,
+    token: {
+      type: String,
+      default: null,
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
+    }
   },
   { versionKey: false, timestamps: true }
 );
@@ -57,12 +67,18 @@ const schemaLogin = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const SchemaVerifyEmail = Joi.object({
+  email: Joi.required().messages({
+    message: "Missing required field email",
+  }),
+});
+
 const schemaUpdate = Joi.object({
   username: Joi.string().min(3),
   subscription: Joi.string().valid("started", "pro", "business"),
 });
 
-const schemas = { schemaRegister, schemaLogin, schemaUpdate };
+const schemas = { schemaRegister, schemaLogin, SchemaVerifyEmail, schemaUpdate };
 
 module.exports = {
   User,

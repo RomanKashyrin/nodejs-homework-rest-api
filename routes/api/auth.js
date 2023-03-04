@@ -10,6 +10,10 @@ router.get("/logout", auth, users.logout);
 
 router.get("/current", auth, users.getUser);
 
+router.get("/verify/:verificationToken", users.verifyEmail);
+
+router.post("/verify", validation(schemas.SchemaVerifyEmail), users.resendVerifyEmail);
+
 router.post("/login", validation(schemas.schemaLogin), users.login);
 
 router.post(
